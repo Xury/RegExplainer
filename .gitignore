@@ -1,0 +1,4 @@
+.DS_STORE
+
+# ignore all Vim swap files
+*.swp
