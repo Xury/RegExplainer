@@ -1,0 +1,8 @@
+setup.py
+regexpl/__init__.py
+regexpl/regex_explainer.py
+regexpl.egg-info/PKG-INFO
+regexpl.egg-info/SOURCES.txt
+regexpl.egg-info/dependency_links.txt
+regexpl.egg-info/requires.txt
+regexpl.egg-info/top_level.txt
