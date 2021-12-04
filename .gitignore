@@ -1,5 +1,6 @@
 .DS_STORE
 config.py
 venv/
+**/__pycache__
 # ignore all Vim swap files
 *.swp
