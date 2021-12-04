@@ -30,11 +30,10 @@ def fetch_explanation(regex, openai_key):
     return explanation
 
 def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config=True)
-
+    app = Flask(__name__) 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_object('config')
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
@@ -54,16 +53,16 @@ def create_app(test_config=None):
 
         return render_template("index.html") 
 
-    @app.route('/regex', methods=['POST'])
-    def return_explanation():
-        regex = request.form['regex']
-        if  'regex':
-            return fetch_explanation(regex)
-        return 'Regex not found'
-
+    #@app.route('/regex', methods=['POST'])
+    #def return_explanation():
+    #    regex = request.form['regex']
+    #    if  'regex':
+    #        return fetch_explanation(regex)
+    #    return 'Regex not found'
 
     return app
 
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
     app.run()
