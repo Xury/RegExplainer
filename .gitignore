@@ -1,4 +1,5 @@
 .DS_STORE
-**/config.py
+config.py
+venv/
 # ignore all Vim swap files
 *.swp
