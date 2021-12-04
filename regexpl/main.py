@@ -2,11 +2,10 @@ import os
 import openai
 import sys
 from flask import Flask
-from flask import request
+from flask import request, render_template
 
-def fetch_explanation(regex):
-    openai.api_key = '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'#os.environ.get('OPENAI_KEY')
-
+def fetch_explanation(regex, openai_key):
+    openai.api_key = openai_key
     # TODO ADD CONTEXT
     incipit_explanation = 'import re\nregex = r"' + regex + '"\n"""\nHere will be the step-by-step explanation of what types of patterns the regex is searching for:\n1.'
     response = openai.Completion.create(engine="davinci-codex", prompt=incipit_explanation, max_tokens=512, temperature=0.15)
@@ -26,17 +25,12 @@ def fetch_explanation(regex):
         else:
             break
 
-    explanation =  "A quick explanation of the regex : " + regex + "\n" + answer_non_rep
+    explanation =  answer_non_rep
     
-    return explanation.replace('\n', '<br>')
+    return explanation
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
-
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-    )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -51,13 +45,14 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-    @app.route('/')
+    @app.route('/', methods=['GET', 'POST'])
     def index():
-        return '''
-        <form action="/regex" method="POST">
-        <div><label>Regex: <input type="text" name="regex"></label></div>
-        <input type="submit" value="Submit">
-        </form>'''
+        regex = request.form.get('regex')
+        if  regex:
+            explanation = fetch_explanation(regex, openai_key = app.config['OPENAI_KEY'])
+            return render_template("index.html", regex=regex, explanation = explanation) 
+
+        return render_template("index.html") 
 
     @app.route('/regex', methods=['POST'])
     def return_explanation():
