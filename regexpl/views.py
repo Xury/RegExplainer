@@ -8,7 +8,7 @@ def fetch_explanation(regex, openai_key):
     openai.api_key = openai_key
     # TODO ADD CONTEXT
     incipit_explanation = 'import re\nregex = r"' + regex + '"\n"""\nHere will be the step-by-step explanation of what types of patterns this specific regex is searching for:\n1.'
-    response = openai.Completion.create(engine="davinci-codex", prompt=incipit_explanation, max_tokens=1024, temperature=0.00, frequence_penalty=0.5, stops='"""')
+    response = openai.Completion.create(engine="davinci-codex", prompt=incipit_explanation, max_tokens=1024, temperature=0.10, frequency_penalty=0.5, stop='"""')
 
     answer = "1." + response['choices'][0].text.split('"""')[0]
 
