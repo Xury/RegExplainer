@@ -7,8 +7,8 @@ from flask import request, render_template
 def fetch_explanation(regex, openai_key):
     openai.api_key = openai_key
     # TODO ADD CONTEXT
-    incipit_explanation = 'import re\nregex = r"' + regex + '"\n"""\nHere will be the step-by-step explanation of what types of patterns the regex is searching for:\n1.'
-    response = openai.Completion.create(engine="davinci-codex", prompt=incipit_explanation, max_tokens=512, temperature=0.15)
+    incipit_explanation = 'import re\nregex = r"' + regex + '"\n"""\nHere will be the step-by-step explanation of what types of patterns this specific regex is searching for:\n1.'
+    response = openai.Completion.create(engine="davinci-codex", prompt=incipit_explanation, max_tokens=1024, temperature=0.00, frequence_penalty=0.5, stops='"""')
 
     answer = "1." + response['choices'][0].text.split('"""')[0]
 
