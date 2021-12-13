@@ -5,28 +5,48 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>RegExplainer</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <link rel="shortcut icon" type="image/png" href="{{url_for('static', filename='favicon.png')}}">
     </head>
+    <style>
+    @media only screen and (min-width: 1024px) 
+    {
+        .textarea {
+            min-width: 10vw;
+            width: 50vw;
+        }
+    }
+    </style>
     <body>
         <section class="section">
-        <h1 class="title" style="text-align: center;">RegExplainer<h1>
+        <div class="block has-text-centered">
+        <p class="title is-1">RegExplainer</p>
+        <p class="subtitle is-4">Regex made simple.</p>
+        </div>
         <div class="container block">
         <form method="POST"> 
             <div class="field"><label class="label">Regex:</label> 
             {% if regex %}
-            <textarea class="textarea is-primary" style="min-width: 10vw; width: 50vw;" placeholder="{{regex}}" type="text" name="regex"></textarea></div>
-            {% else %} 
-            <textarea class="textarea is-primary" style="min-width: 10vw; width: 50vw;" placeholder="Type a regex here..." type="text" name="regex"></textarea></div>
+            <textarea class="textarea is-primary" id="text_regex" placeholder="{{regex}}" type="text" name="regex"></textarea></div>
+            {% else %}
+            <textarea class="textarea is-primary" id="text_regex" placeholder="Type a regex here..." type="text" name="regex"></textarea></div>
             {% endif %}
-            <div class="field control"><input class="button is-link" type="submit" value="Submit"></div>
+
+            <div class="field control" style=".button: display: inline-block;"><input class="button is-primary" type="submit" value="Submit">
+            {% if regex %}
+            <button class="button is-primary is-light" type="submit" onclick="document.getElementById('text_regex').value = '{{regex}}'">Retry</button></div>
+            {% else %}
+            </div>
+            {% endif %}
         </form>
         </div>
         {% if explanation %}
         <div class="container block">
-            <p class="subtitle">Explanation of the regex:</p>
-            <p>Regex: {{regex}}</p>
+            <p class="subtitle">Explanation of the regex</p>
+            <p><span style="font-weight: bold">Regex:</span> {{regex}}</p>
             <p style="white-space: pre-wrap;">{{explanation}}</p>
         </div>
         {% endif %}
         </section>
     </body>
 </html>
+
